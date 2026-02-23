@@ -1,0 +1,132 @@
+// Threaded Nexus v1 — canonical data model
+// See docs/data-model.md for entity relationships.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SourceEvent {
+  id              String    @id @default(cuid())
+  source          String    // GMAIL | GCAL | MANUAL | LINKEDIN
+  sourceId        String    @unique // unique per source
+  receivedAt      DateTime  @default(now())
+  payload         Json
+  processedAt     DateTime?
+  processingError String?
+
+  interactions Interaction[]
+
+  @@map("source_events")
+}
+
+model Person {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  fullName     String?
+  firstName    String?
+  lastName     String?
+  primaryEmail String?
+  linkedinUrl  String?
+  notes        String?
+
+  identities           Identity[]
+  interactionParticipants InteractionParticipant[]
+  tasks                Task[]
+
+  @@map("people")
+}
+
+model Company {
+  id     String @id @default(cuid())
+  name   String
+  domain String?
+
+  @@map("companies")
+}
+
+model Identity {
+  id        String   @id @default(cuid())
+  personId  String
+  type      String   // EMAIL | LINKEDIN | PHONE | OTHER
+  value     String
+  isPrimary Boolean  @default(false)
+
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([type, value])
+  @@map("identities")
+}
+
+model Interaction {
+  id            String    @id @default(cuid())
+  type          String    // EMAIL_THREAD | MEETING | NOTE
+  occurredAt    DateTime
+  subject       String?
+  summary       String?
+  rawRef        String?   // e.g. gmail thread id
+  sourceEventId String?
+
+  sourceEvent  SourceEvent? @relation(fields: [sourceEventId], references: [id], onDelete: SetNull)
+  participants InteractionParticipant[]
+  tasks        Task[]
+
+  @@map("interactions")
+}
+
+model InteractionParticipant {
+  id             String @id @default(cuid())
+  interactionId  String
+  personId       String
+
+  interaction Interaction @relation(fields: [interactionId], references: [id], onDelete: Cascade)
+  person      Person     @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([interactionId, personId])
+  @@map("interaction_participants")
+}
+
+model Task {
+  id             String   @id @default(cuid())
+  title          String
+  status         String   // OPEN | DONE | SNOOZED
+  dueAt          DateTime?
+  createdBy      String   // SYSTEM | USER
+  personId       String?
+  interactionId  String?
+
+  person       Person?       @relation(fields: [personId], references: [id])
+  interaction  Interaction? @relation(fields: [interactionId], references: [id])
+
+  @@map("tasks")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actor      String   // SYSTEM | USER | AGENT
+  action     String
+  targetType String
+  targetId   String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model ToolApproval {
+  id         String    @id @default(cuid())
+  toolName   String
+  request    Json      // structured tool request
+  status     String    // PENDING | APPROVED | REJECTED
+  createdAt  DateTime  @default(now())
+  decidedAt  DateTime?
+  decidedBy  String?
+  executedAt DateTime? // set when worker runs the tool
+
+  @@map("tool_approvals")
+}

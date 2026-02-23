@@ -1,0 +1,27 @@
+{
+  "name": "@threaded-nexus/worker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@threaded-nexus/config": "workspace:*",
+    "@threaded-nexus/core": "workspace:*",
+    "@threaded-nexus/db": "workspace:*",
+    "@threaded-nexus/tool-gateway": "workspace:*",
+    "bullmq": "^5.34.2",
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.6"
+  }
+}
