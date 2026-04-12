@@ -12,7 +12,10 @@ export interface ApiDeps {
 export function registerRoutes(app: FastifyInstance, deps: ApiDeps): void {
   const { prisma, toolGateway } = deps;
 
-  app.get("/health", async () => ({ ok: true }));
+  app.get("/health", async (_req, reply) => {
+    void reply.header("Cache-Control", "no-store, max-age=0");
+    return { ok: true };
+  });
 
   app.get("/debug/stats", async () => {
     const [sourceEvents, interactions, tasks, pendingApprovals] = await Promise.all([
