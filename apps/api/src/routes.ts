@@ -13,7 +13,8 @@ export function registerRoutes(app: FastifyInstance, deps: ApiDeps): void {
   const { prisma, toolGateway } = deps;
 
   app.get("/health", async (_req, reply) => {
-    void reply.header("Cache-Control", "no-store, max-age=0");
+    void reply.header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+    void reply.header("Pragma", "no-cache");
     return { ok: true };
   });
 
