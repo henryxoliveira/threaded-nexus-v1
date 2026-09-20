@@ -15,6 +15,7 @@ export function registerRoutes(app: FastifyInstance, deps: ApiDeps): void {
   app.get("/health", async (_req, reply) => {
     void reply.header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
     void reply.header("Pragma", "no-cache");
+    void reply.header("Expires", "0");
     return { ok: true };
   });
 
