@@ -16,6 +16,7 @@ export function registerRoutes(app: FastifyInstance, deps: ApiDeps): void {
     void reply.header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
     void reply.header("Pragma", "no-cache");
     void reply.header("Expires", "0");
+    void reply.header("Surrogate-Control", "no-store");
     return { ok: true };
   });
 
