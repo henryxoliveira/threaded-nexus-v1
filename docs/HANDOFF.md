@@ -13,7 +13,7 @@ The following was the full Cursor Master Prompt used to scaffold this repo. Foll
 
 # CURSOR MASTER PROMPT — Threaded Nexus v1 (bootstrap repo from empty)
 
-You are Cursor (an AI coding agent) working in an empty GitHub repository named **threaded-nexus-v1**. Your job is to **scaffold the full technical foundation** for this project in one pass, and to create a **README "master prompt"** that future LLMs can use to instantly understand the system, constraints, architecture, and how to work inside this repo.
+You are Cursor (an AI coding agent) working in an empty GitHub repository named **threaded-nexus-v1** (https://github.com/henryxoliveira/threaded-nexus-v1). Your job is to **scaffold the full technical foundation** for this project in one pass, and to create a **README "master prompt"** that future LLMs can use to instantly understand the system, constraints, architecture, and how to work inside this repo.
 
 ## 0) What you're building (project context)
 

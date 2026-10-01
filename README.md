@@ -2,6 +2,9 @@
 
 **Always-on personal CRM + outreach copilot + workflow automation.**
 
+**Author:** Henrique Oliveira  
+**Repository:** https://github.com/henryxoliveira/threaded-nexus-v1
+
 This repo is the technical foundation for ingesting events (Gmail, Google Calendar, later LinkedIn and others), normalizing them into a canonical data model (People, Interactions, Tasks, Sequences), and using LLMs to summarize, extract action items, draft messages, and propose next steps. All side-effectful actions (send email, create event) go through a **Tool Gateway** with permissioning and optional human approval.
 
 ---
@@ -91,7 +94,7 @@ Conventional commits optional but useful: `feat:`, `fix:`, `docs:`, `chore:`.
 ## Quick start (copy-paste)
 
 ```bash
-git clone <repo> && cd threaded-nexus-v1
+git clone https://github.com/henryxoliveira/threaded-nexus-v1 && cd threaded-nexus-v1
 cp .env.example .env
 docker compose up -d
 pnpm install
