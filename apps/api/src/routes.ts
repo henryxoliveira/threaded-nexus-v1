@@ -17,6 +17,7 @@ export function registerRoutes(app: FastifyInstance, deps: ApiDeps): void {
     void reply.header("Pragma", "no-cache");
     void reply.header("Expires", "0");
     void reply.header("Surrogate-Control", "no-store");
+    void reply.header("Vary", "*");
     return { ok: true };
   });
 
